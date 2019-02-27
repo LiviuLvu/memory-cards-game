@@ -1,28 +1,35 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+
 import './App.css';
+import Board from "./components/board/Board";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+export default function App() {
+  const [cards, setCards] = useState([1, 2, 3, 4]);
+  const [flipped, setFlipState] = useState([0, 0, 0, 0]);
+  // const [solved, setSolved] = useState([0, 0, 0, 0]);
+  // const [disabled, setDisabled] = useState(false);
+
+  function flipCards(id) {
+    const flipArray = [...flipped];
+
+    flipArray[id] = flipArray[id] === 0 ? 1 : 0;
+
+    setFlipState(flipArray);
+    console.log(flipArray, id);
   }
-}
 
-export default App;
+  return (
+    <div className="App">
+      <h3>
+        Memory Game
+      </h3>
+      <Board
+        cards={cards}
+        flipped={flipped}
+        // solved={solved}
+        handleClick={flipCards}
+        // disabled={disabled}
+      />
+    </div>
+  );
+}
