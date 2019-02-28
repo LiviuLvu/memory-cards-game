@@ -12,12 +12,15 @@ export default function Card({
   }) {
   return (
     <div
-      className='card'
       onClick={() => handleClick(id)}
-    >
-      <p className={flipped ? 'front' : 'back'} >
-        {id}
-      </p>
+      className='card'>
+      <div
+        className={flipped ? 'visible' : 'hidden'}
+        style = {{backgroundColor: `${symbol}`}} >
+        <p>
+          {symbol}
+        </p>
+      </div>
     </div>
   )
 }

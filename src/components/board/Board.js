@@ -8,10 +8,11 @@ export default function Board({ cards, flipped, handleClick }) {
     <div className='board'>
       {cards.map((card, id) => (
         <Card
-          key={card}
+          key={id}
           handleClick={handleClick}
           flipped={flipped[id]}
           id={id}
+          symbol={card}
         />
       ))}
     </div>

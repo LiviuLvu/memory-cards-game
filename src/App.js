@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
 
 import './App.css';
-import Board from "./components/board/Board";
+import Board from './components/board/Board';
+import { generateDeck } from './components/helpers';
 
 export default function App() {
-  const [cards, setCards] = useState([1, 2, 3, 4]);
-  const [flipped, setFlipState] = useState([0, 0, 0, 0]);
+  const [difficulty, setDifficulty] = useState(4);
+  const [cards, setCards] = useState([]);
+  const [flipped, setFlipState] = useState([]);
   // const [solved, setSolved] = useState([0, 0, 0, 0]);
   // const [disabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    setCards(generateDeck(difficulty));
+  }, []);
 
   function flipCards(id) {
     const flipArray = [...flipped];
 
-    flipArray[id] = flipArray[id] === 0 ? 1 : 0;
+    flipArray[id] = flipArray[id] !== 0 ? 1 : 1;
 
     setFlipState(flipArray);
     console.log(flipArray, id);
