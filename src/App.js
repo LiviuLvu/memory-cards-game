@@ -13,7 +13,15 @@ export default function App() {
 
   useEffect(() => {
     setCards(generateDeck(difficulty));
-  }, []);
+  }, [difficulty]);
+
+  function increaseLevel() {
+    setDifficulty(difficulty + 4);
+  }
+
+  function decreaseLevel() {
+    setDifficulty(difficulty - 4);
+  }
 
   function flipCards(id) {
     const flipArray = [...flipped];
@@ -29,6 +37,8 @@ export default function App() {
       <h3>
         Memory Game
       </h3>
+      <button onClick={()=>increaseLevel()}>+ Add Cards</button>
+      <button onClick={()=>decreaseLevel()}>- Remove</button>
       <Board
         cards={cards}
         flipped={flipped}
