@@ -7,9 +7,9 @@ import { generateDeck } from './components/helpers';
 export default function App() {
   const [difficulty, setDifficulty] = useState(4);
   const [gameOn, setGame] = useState(false);
+  const [gameWon, setWin] = useState(false);
   const [cards, setCards] = useState([]);
   const [flippedId, setFlipPair] = useState([]);
-  const [solved, solveCard] = useState([]);
 
   useEffect(() => {
     setCards(generateDeck(difficulty));
@@ -59,6 +59,12 @@ export default function App() {
         updatedCards[flippedCards[1]].flipped = 0;
         setFlipPair([]);
         setCards(updatedCards);
+
+        const gameStillOn = cards.every((card) => {
+          return card.solved === 1;
+        });
+        setWin(gameStillOn);
+
         return;
       }, 500);
     }
@@ -68,9 +74,8 @@ export default function App() {
 
   return (
     <div className="App">
-      <h3>
-        Memory Game
-      </h3>
+      {gameWon ? (<h1 className={"alert"}>You Win!</h1>) : (<h3>Color memory game</h3>) }
+
       <button disabled={gameOn} onClick={()=>increaseLevel()}>+ Add Cards</button>
       <Board
         cards={cards}
