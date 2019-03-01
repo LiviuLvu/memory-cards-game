@@ -8,10 +8,15 @@
   text-transform: uppercase;
   color: #fff;
   text-shadow: 0px 1px 11px grey;
+  cursor: pointer;
 }
 
 .card > div {
  height: 100px;
+}
+
+.found {
+  pointer-events: none;
 }
 
 .card p {

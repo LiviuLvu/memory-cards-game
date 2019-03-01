@@ -24,7 +24,25 @@ export default function App() {
     let flippedCards = [...flippedId];
     let isMatch = false;
 
+    // was the same card clicked?
+    if (cards[id].flipped === 1) {
+      updatedCards[id].flipped = 0;
+      flippedCards.pop();
+      setFlipPair(flippedCards);
+      setCards(updatedCards);
+      return;
+    }
+
+    // flipping a new card
+    if (cards[id].flipped === 0) {
+      updatedCards[id].flipped = 1;
+      flippedCards.push();
+      setFlipPair(flippedCards);
+      setCards(updatedCards);
+    }
+
     flippedCards.push(id);
+
     // compare cards if 2 are flipped
     if(flippedCards.length === 2) {
       isMatch = updatedCards[flippedCards[0]].cardColor === updatedCards[flippedCards[1]].cardColor;
@@ -35,22 +53,16 @@ export default function App() {
         updatedCards[flippedCards[1]].solved = 1;
       }
 
-      // reset flip state
       setTimeout(() => {
+        // reset flip state in case match is false
         updatedCards[flippedCards[0]].flipped = 0;
         updatedCards[flippedCards[1]].flipped = 0;
         setFlipPair([]);
         setCards(updatedCards);
         return;
-      }, 1000);
-    } else {
-      // update current card flip state
-      updatedCards[id].flipped = updatedCards[id].flipped === 1 ? 0 : 1;
-      if(updatedCards[id].flipped === 0) flippedCards.pop();
+      }, 500);
     }
 
-    setFlipPair(flippedCards);
-    setCards(updatedCards);
     setGame(true);
   }
 
