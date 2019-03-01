@@ -66,17 +66,33 @@ export default function App() {
         setWin(gameStillOn);
 
         return;
-      }, 500);
+      }, 300);
     }
 
     setGame(true);
   }
 
+  function setGameState() {
+    setGame(false);
+    setWin(false);
+    setCards(generateDeck(difficulty));
+  }
+
   return (
     <div className="App">
-      {gameWon ? (<h1 className={"alert"}>You Win!</h1>) : (<h3>Color memory game</h3>) }
+      {gameWon ? (
+        <>
+          <h1 className={"alert"}>You Win!</h1>
+          <button onClick={()=>setGameState()}>Restart</button>
+        </>
+      ) : (
+        <>
+          <h3>Color memory game</h3>
+          <button disabled={gameOn} onClick={()=>increaseLevel()}>+ Add Cards</button>
+        </>
+      ) }
 
-      <button disabled={gameOn} onClick={()=>increaseLevel()}>+ Add Cards</button>
+
       <Board
         cards={cards}
         handleClick={flipCards}
