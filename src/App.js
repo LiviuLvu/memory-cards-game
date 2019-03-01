@@ -6,10 +6,10 @@ import { generateDeck } from './components/helpers';
 
 export default function App() {
   const [difficulty, setDifficulty] = useState(4);
+  const [gameOn, setGame] = useState(false);
   const [cards, setCards] = useState([]);
-  const [flipped, setFlipState] = useState([]);
-  // const [solved, setSolved] = useState([0, 0, 0, 0]);
-  // const [disabled, setDisabled] = useState(false);
+  const [flippedId, setFlipPair] = useState([]);
+  const [solved, solveCard] = useState([]);
 
   useEffect(() => {
     setCards(generateDeck(difficulty));
@@ -19,17 +19,39 @@ export default function App() {
     setDifficulty(difficulty + 4);
   }
 
-  function decreaseLevel() {
-    setDifficulty(difficulty - 4);
-  }
-
   function flipCards(id) {
-    const flipArray = [...flipped];
+    let updatedCards = [...cards];
+    let flippedCards = [...flippedId];
+    let isMatch = false;
 
-    flipArray[id] = flipArray[id] !== 0 ? 1 : 1;
+    flippedCards.push(id);
+    // compare cards if 2 are flipped
+    if(flippedCards.length === 2) {
+      isMatch = updatedCards[flippedCards[0]].cardColor === updatedCards[flippedCards[1]].cardColor;
 
-    setFlipState(flipArray);
-    console.log(flipArray, id);
+      // solved cards toggle
+      if (isMatch) {
+        updatedCards[flippedCards[0]].solved = 1;
+        updatedCards[flippedCards[1]].solved = 1;
+      }
+
+      // reset flip state
+      setTimeout(() => {
+        updatedCards[flippedCards[0]].flipped = 0;
+        updatedCards[flippedCards[1]].flipped = 0;
+        setFlipPair([]);
+        setCards(updatedCards);
+        return;
+      }, 1000);
+    } else {
+      // update current card flip state
+      updatedCards[id].flipped = updatedCards[id].flipped === 1 ? 0 : 1;
+      if(updatedCards[id].flipped === 0) flippedCards.pop();
+    }
+
+    setFlipPair(flippedCards);
+    setCards(updatedCards);
+    setGame(true);
   }
 
   return (
@@ -37,14 +59,10 @@ export default function App() {
       <h3>
         Memory Game
       </h3>
-      <button onClick={()=>increaseLevel()}>+ Add Cards</button>
-      <button onClick={()=>decreaseLevel()}>- Remove</button>
+      <button disabled={gameOn} onClick={()=>increaseLevel()}>+ Add Cards</button>
       <Board
         cards={cards}
-        flipped={flipped}
-        // solved={solved}
         handleClick={flipCards}
-        // disabled={disabled}
       />
     </div>
   );

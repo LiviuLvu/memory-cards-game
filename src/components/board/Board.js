@@ -3,16 +3,17 @@ import React from 'react'
 import Card from '../card/Card';
 import './board.css'
 
-export default function Board({ cards, flipped, handleClick }) {
+export default function Board({ cards, handleClick }) {
   return (
     <div className='board'>
-      {cards.map((card, id) => (
+      {cards.map((card) => (
         <Card
-          key={id}
-          handleClick={handleClick}
-          flipped={flipped[id]}
-          id={id}
-          symbol={card}
+          key={card.id}
+          handleClick={() => { handleClick(card.id) }}
+          flipped={card.flipped}
+          id={card.id}
+          symbol={card.cardColor}
+          solved={card.solved}
         />
       ))}
     </div>

@@ -3,10 +3,19 @@ export function generateDeck(difficulty) {
   let cardsArray = [];
 
   while (cardsCount > 0) {
+    // https://www.paulirish.com/2009/random-hex-color-code-snippets/
     const cardColor = '#'+Math.floor(Math.random()*16777215).toString(16);
-    cardsArray.push(cardColor);
-    cardsArray.push(cardColor);
+    cardsArray.push({cardColor});
+    cardsArray.push({cardColor});
     cardsArray = shuffle(cardsArray);
+    cardsArray = cardsArray.map((card, id) => {
+      return {
+        ...card,
+        id,
+        flipped: 0,
+        solved: 0
+      }
+    });
 
     console.log(cardsArray);
     cardsCount -= 1;
